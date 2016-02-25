@@ -1,0 +1,45 @@
+""" Wrapper file for the 4 algorithms,
+    Input: -inst <filename.graph>, -alg[BnB|Approx|LS1|LS2],
+           -time <cutoff in seconds>, -seed <random seet>
+           where the -seed argument can be omitted for Bnb and Approx
+    Output: trace file and sol file
+    For example: to run it for the email.graph file with branch-and-bound
+                 with 30s as cutoff time: type in
+                 python vertex_cover.py ./DATA/email.graph  30
+"""
+
+import sys
+import branch_and_bound
+import approximation
+
+def main():
+    num_args = len(sys.argv)
+
+    if num_args < 4 or ( sys.argv[2].startswith("LS") and len(sys.argv) < 5):
+        print "error: not enough input arguments"
+        exit(1)
+
+    input_graph = sys.argv[1]
+    algs = sys.argv[2]
+    cutoff_time = int(sys.argv[3])
+
+    if len(sys.argv) >= 5:
+        seed = int(sys.argv[4])
+
+    if algs == "BnB":
+        branch_and_bound.run_bnb(input_graph, cutoff_time)
+    else:
+        if algs == "Approx":
+            approximation.run_approx(input_graph, cutoff_time)
+        else:
+            if algs == "LS1":
+                pass # replace this line with a call to LS1
+            else:
+                if algs == "LS2":
+                    pass # replace this line with a call to LS2
+                else:
+                    print "error: please choose among [BnB|Approx|LS1|LS2]"
+                    exit(1)
+
+if __name__ == '__main__':
+    main()
